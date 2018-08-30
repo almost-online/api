@@ -1,0 +1,36 @@
+version: '3'
+services:
+  db:
+    image: postgres:10.3-alpine
+    container_name: postgres01
+  aerospike-server:
+    image: aerospike/aerospike-server:3.9.1
+    container_name: aerospike01
+    volumes:
+      - ./config/aerospike:/opt/aerospike/etc
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "3002:3002"
+      - "3003:3003"
+  nginx:
+    image: nginx:1.13-alpine
+    container_name: nginx01
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./project:/src
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - api
+  api:
+    build: .
+    container_name: api01
+    depends_on:
+      - db
+      - aerospike-server
+    volumes:
+      - ./project:/src
+    expose:
+      - "8000"
+    restart: always
