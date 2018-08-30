@@ -1,4 +1,3 @@
-FROM python:3.5-alpine
 FROM nginx:1.10
 
 RUN apt-get clean && apt-get update && apt-get install -y nano spawn-fcgi fcgiwrap wget curl
