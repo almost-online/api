@@ -8,6 +8,6 @@ ADD ./config/nginx/api.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /var/www
 
-ADD ./project /var/www
+ADD ./project /var/www/api
 
-CMD /etc/init.d/fcgiwrap start; nginx-debug -g "daemon off;"
+CMD /etc/init.d/fcgiwrap start; nginx -g "daemon off;"
